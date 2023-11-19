@@ -1,3 +1,9 @@
+package tracker.meneger;
+
+import tracker.tasks.Epic;
+import tracker.tasks.SubTask;
+import tracker.tasks.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -5,9 +11,9 @@ public class Meneger {
 
     protected int id = 1;
 
-    HashMap<Integer, Task> tasks = new HashMap<>();
-    HashMap<Integer, Epic> epics = new HashMap<>();
-    HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    private HashMap<Integer, Task> tasks = new HashMap<>();
+    private HashMap<Integer, Epic> epics = new HashMap<>();
+    private HashMap<Integer, SubTask> subTasks = new HashMap<>();
 
     // Создание Task
     public Task createTask(Task task) {
@@ -20,7 +26,6 @@ public class Meneger {
     // создание Epic
     public Epic createEpic(Epic epic) {
         epic.setId(id++);
-        epic.setStatus("NEW");
         epics.put(epic.getId(), epic);
         return epic;
     }
@@ -44,56 +49,63 @@ public class Meneger {
 
     // Удаление всех Epic
     public void deleteAllEpic(){
+        for(Epic epic : epics.values()){
+            int idEpic = epic.getId();
+            ArrayList<Integer> idsSubTask = epics.get(idEpic).getIdSubTask();
+            for(Integer idSubTask : idsSubTask) {
+                subTasks.remove(idSubTask);
+            }
+        }
         epics.clear();
     }
 
     // Удаление всех SubTask
     public void deleteAllSubTask(){
+        for(SubTask subTask : subTasks.values()){
+            int idEpic = subTask.getIdEpic();
+            ArrayList<Integer> idsSubTask = epics.get(idEpic).getIdSubTask();
+            idsSubTask.remove((Integer) subTask.getId());
+            checkStatus(idEpic);
+        }
         subTasks.clear();
     }
 
     // Получение списка Task
-    public void listAllTask(){
-        for(Task task : tasks.values()){
-            System.out.println(task);
-        }
+    public ArrayList<Task> listAllTask(){
+        return new ArrayList<>(tasks.values());
     }
 
     // Получение списка Epic
-    public void listAllEpic() {
-        for(Epic epic : epics.values()){
-            System.out.println(epic);
-        }
+    public ArrayList<Epic> listAllEpic() {
+        return new ArrayList<>(epics.values());
     }
 
     // Получение списка SubTask
-    public void listAllSubTask(){
-        for(SubTask subtask : subTasks.values()){
-            System.out.println(subtask);
-        }
+    public ArrayList<SubTask> listAllSubTask(){
+        return new ArrayList<>(subTasks.values());
     }
 
     // Получение Task по id
-    public void getListTaskById(int id){
-        System.out.println(tasks.get(id));
+    public Task getListTaskById(int id){
+        return tasks.get(id);
     }
 
     // Получение Epic по id
-    public void getListEpicById(int id){
-        System.out.println(epics.get(id));
+    public Epic getListEpicById(int id){
+        return epics.get(id);
     }
 
     // Получение SubTask по id
-    public void getListSubTaskById(int id){
-        System.out.println(subTasks.get(id));
+    public SubTask getListSubTaskById(int id){
+        return subTasks.get(id);
     }
 
     // Получение списка всех SubTask определенного Epic
-    public HashMap<Integer, SubTask> getListSubTasksByIdEpic(int id) {
+    public ArrayList<SubTask> getListSubTasksByIdEpic(int id) {
         ArrayList<Integer> idsSubTask = epics.get(id).getIdSubTask();
-        HashMap<Integer, SubTask> listSubTasksByIdEpic = new HashMap<>();
+        ArrayList<SubTask> listSubTasksByIdEpic = new ArrayList<>();
         for(int idSubTask : idsSubTask){
-            listSubTasksByIdEpic.put(idSubTask, subTasks.get(idSubTask));
+            listSubTasksByIdEpic.add(subTasks.get(idSubTask));
         }
         return listSubTasksByIdEpic;
     }
@@ -112,31 +124,7 @@ public class Meneger {
     public void updateSubTask(SubTask updateSabTask){
         subTasks.put(updateSabTask.getId(), updateSabTask);
         int idEpic = subTasks.get(updateSabTask.getId()).getIdEpic();
-        ArrayList<Integer> idsSubTask = epics.get(idEpic).getIdSubTask();
-        for(Integer idSubTask : idsSubTask){
-            if(subTasks.get(idSubTask).getStatus().equals("NEW") || idsSubTask.isEmpty()){
-                Epic epicUpdateStatus = new Epic(epics.get(idEpic).getName(),
-                        epics.get(idEpic).getDescription(),
-                        "NEW",
-                        epics.get(idEpic).getId(),
-                        epics.get(idEpic).getIdSubTask());
-                epics.put(idEpic, epicUpdateStatus);
-            } else if (subTasks.get(idSubTask).getStatus().equals("DONE")) {
-                Epic epicUpdateStatus = new Epic(epics.get(idEpic).getName(),
-                        epics.get(idEpic).getDescription(),
-                        "DONE",
-                        epics.get(idEpic).getId(),
-                        epics.get(idEpic).getIdSubTask());
-                epics.put(idEpic, epicUpdateStatus);
-            } else {
-                Epic epicUpdateStatus = new Epic(epics.get(idEpic).getName(),
-                        epics.get(idEpic).getDescription(),
-                        "IN_PROGRESS",
-                        epics.get(idEpic).getId(),
-                        epics.get(idEpic).getIdSubTask());
-                epics.put(idEpic, epicUpdateStatus);
-            }
-        }
+        checkStatus(idEpic);
     }
 
     // Удаление Task по id
@@ -159,6 +147,12 @@ public class Meneger {
         ArrayList<Integer> idsSubTask = epics.get(idEpic).getIdSubTask();
         idsSubTask.remove((Integer) id);
         subTasks.remove(id);
+        checkStatus(idEpic);
+    }
+
+    //Проверка статуса
+    public void checkStatus(int idEpic){
+        ArrayList<Integer> idsSubTask = epics.get(idEpic).getIdSubTask();
         for(Integer idSubTask : idsSubTask){
             if(subTasks.get(idSubTask).getStatus().equals("NEW") || idsSubTask.isEmpty()){
                 Epic epicUpdateStatus = new Epic(epics.get(idEpic).getName(),

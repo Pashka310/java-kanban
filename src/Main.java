@@ -1,3 +1,7 @@
+import tracker.meneger.Meneger;
+import tracker.tasks.Epic;
+import tracker.tasks.SubTask;
+import tracker.tasks.Task;
 
 public class Main {
     public static void main(String[] args) {
@@ -34,7 +38,6 @@ public class Main {
 
         // Получение списка SubTask определенного Epic
         System.out.println(meneger.getListSubTasksByIdEpic(epic4.getId()));
-
         // Обновление Task
         Task updateTask = new Task("Задача1", "Обновление задачи", "IN_PROGREES", task1.getId());
         meneger.updateTask(updateTask);
@@ -48,7 +51,6 @@ public class Main {
         SubTask updateSubtaskTask = new SubTask("Подзадача", "Обновление подзадачи",
                 "IN_PROGRESS", subTask5.getId(), 4);
         meneger.updateSubTask(updateSubtaskTask);
-
         meneger.deleteTaskId(task1.getId()); // Удаление Task по id
         meneger.deleteEpicId(epic3.getId()); // Удаление Epic по id
         meneger.deleteSubTaskId(subTask7.getId()); // Удаление SubTask по id

@@ -1,6 +1,8 @@
+package tracker.tasks;
+
 import java.util.Objects;
 
-public class SubTask extends Task{
+public class SubTask extends Task {
 
     protected int idEpic;
 
