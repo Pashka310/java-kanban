@@ -26,6 +26,7 @@ public class Meneger {
     // создание Epic
     public Epic createEpic(Epic epic) {
         epic.setId(id++);
+        epic.setStatus("NEW");
         epics.put(epic.getId(), epic);
         return epic;
     }
@@ -151,31 +152,23 @@ public class Meneger {
     }
 
     //Проверка статуса
-    public void checkStatus(int idEpic){
+    public void checkStatus(int idEpic) {
+        int statusNEW = 0;
+        int statusDONE = 0;
         ArrayList<Integer> idsSubTask = epics.get(idEpic).getIdSubTask();
-        for(Integer idSubTask : idsSubTask){
-            if(subTasks.get(idSubTask).getStatus().equals("NEW") || idsSubTask.isEmpty()){
-                Epic epicUpdateStatus = new Epic(epics.get(idEpic).getName(),
-                        epics.get(idEpic).getDescription(),
-                        "NEW",
-                        epics.get(idEpic).getId(),
-                        epics.get(idEpic).getIdSubTask());
-                epics.put(idEpic, epicUpdateStatus);
+        for (Integer idSubTask : idsSubTask) {
+            if (subTasks.get(idSubTask).getStatus().equals("NEW")) {
+                statusNEW++;
             } else if (subTasks.get(idSubTask).getStatus().equals("DONE")) {
-                Epic epicUpdateStatus = new Epic(epics.get(idEpic).getName(),
-                        epics.get(idEpic).getDescription(),
-                        "DONE",
-                        epics.get(idEpic).getId(),
-                        epics.get(idEpic).getIdSubTask());
-                epics.put(idEpic, epicUpdateStatus);
-            } else {
-                Epic epicUpdateStatus = new Epic(epics.get(idEpic).getName(),
-                        epics.get(idEpic).getDescription(),
-                        "IN_PROGRESS",
-                        epics.get(idEpic).getId(),
-                        epics.get(idEpic).getIdSubTask());
-                epics.put(idEpic, epicUpdateStatus);
+                statusDONE++;
             }
+        }
+        if (idsSubTask.size() == statusNEW || idsSubTask.isEmpty()) {
+            epics.get(idEpic).setStatus("NEW");
+        } else if (idsSubTask.size() == statusDONE) {
+            epics.get(idEpic).setStatus("DONE");
+        } else {
+            epics.get(idEpic).setStatus("IN_PROGRESS");
         }
     }
 }
