@@ -1,12 +1,14 @@
-import tracker.meneger.Meneger;
+import tracker.meneger.Managers;
+import tracker.meneger.TaskManager;
 import tracker.tasks.Epic;
+import tracker.tasks.Status;
 import tracker.tasks.SubTask;
 import tracker.tasks.Task;
 
 public class Main {
     public static void main(String[] args) {
 
-        Meneger meneger = new Meneger();
+        TaskManager inMemoryTaskManager = Managers.getDefault();
 
         Task task1 = new Task("Задача1", "Описание задачи1");
         Task task2 = new Task("Задача2", "Описание задачи2");
@@ -18,43 +20,47 @@ public class Main {
         Epic epic4 = new Epic("Эпик1","Описание epic1");
         SubTask subTask7 = new SubTask("Подзадача2", "Описание подзадачи2", 4);
 
-        meneger.createTask(task1); // Создание Task
-        meneger.createTask(task2); // Создание Task1
-        meneger.createEpic(epic3); // Создание Epic3
-        meneger.createEpic(epic4); // Создание Epic4
-        meneger.createSubTask(subTask5); // Создание SubTask5
-        meneger.createSubTask(subTask6); // Создание SubTask6
-        meneger.createSubTask(subTask7); // Создание SubTask7
+        inMemoryTaskManager.createTask(task1); // Создание Task
+        inMemoryTaskManager.createTask(task2); // Создание Task1
+        inMemoryTaskManager.createEpic(epic3); // Создание Epic3
+        inMemoryTaskManager.createEpic(epic4); // Создание Epic4
+        inMemoryTaskManager.createSubTask(subTask5); // Создание SubTask5
+        inMemoryTaskManager.createSubTask(subTask6); // Создание SubTask6
+        inMemoryTaskManager.createSubTask(subTask7); // Создание SubTask7
 
-        meneger.listAllTask(); // Получение списка всех Task
-        meneger.listAllEpic(); // Получение списка всех Epic
-        meneger.listAllSubTask(); // Получение списка всех SubTask
-        meneger.deleteAllTask(); // Удаление всех Task
-        meneger.deleteAllEpic();  // Удаление всех Epic
-        meneger.deleteAllSubTask(); // Удаление всех SubTask
-        meneger.getListTaskById(task1.getId()); // Вывод Task по id
-        meneger.getListEpicById(epic3.getId()); // Вывод Epic по id
-        meneger.getListSubTaskById(subTask5.getId()); // Вывод SubTask по id
+        inMemoryTaskManager.listAllTask(); // Получение списка всех Task
+        inMemoryTaskManager.listAllEpic(); // Получение списка всех Epic
+        inMemoryTaskManager.listAllSubTask(); // Получение списка всех SubTask
+        inMemoryTaskManager.deleteAllTask(); // Удаление всех Task
+        inMemoryTaskManager.deleteAllEpic();  // Удаление всех Epic
+        inMemoryTaskManager.deleteAllSubTask(); // Удаление всех SubTask
+
+        inMemoryTaskManager.getListTaskById(task1.getId()); // Вывод Task по id
+        inMemoryTaskManager.getListEpicById(epic3.getId()); // Вывод Epic по id
+        inMemoryTaskManager.getListSubTaskById(subTask5.getId()); // Вывод SubTask по id
 
         // Получение списка SubTask определенного Epic
-        System.out.println(meneger.getListSubTasksByIdEpic(epic4.getId()));
+        System.out.println(inMemoryTaskManager.getListSubTasksByIdEpic(epic4.getId()));
 
         // Обновление Task
-        Task updateTask = new Task("Задача1", "Обновление задачи", "IN_PROGREES", task1.getId());
-        meneger.updateTask(updateTask);
+        Task updateTask = new Task("Задача1", "Обновление задачи", Status.IN_PROGRESS, task1.getId());
+        inMemoryTaskManager.updateTask(updateTask);
 
         // Обновление Epic
         Epic updateEpic = new Epic("Эпик", "Обновление epic", epic3.getId(),
                 epic3.getIdSubTask());
-        meneger.updateEpic(updateEpic);
+        inMemoryTaskManager.updateEpic(updateEpic);
 
         // Обновление SubTask
         SubTask updateSubtaskTask = new SubTask("Подзадача", "Обновление подзадачи",
-                "IN_PROGRESS", subTask5.getId(), 3);
-        meneger.updateSubTask(updateSubtaskTask);
+                Status.IN_PROGRESS, subTask5.getId(), 3);
+        inMemoryTaskManager.updateSubTask(updateSubtaskTask);
 
-        meneger.deleteTaskId(task1.getId()); // Удаление Task по id
-        meneger.deleteEpicId(epic3.getId()); // Удаление Epic по id
-        meneger.deleteSubTaskId(subTask7.getId()); // Удаление SubTask по id
+        inMemoryTaskManager.deleteTaskId(task1.getId()); // Удаление Task по id
+        inMemoryTaskManager.deleteEpicId(epic3.getId()); // Удаление Epic по id
+        inMemoryTaskManager.deleteSubTaskId(subTask7.getId()); // Удаление SubTask по id
+
+        System.out.println(inMemoryTaskManager.getHistory());//Последние просмотренные пользователем задачи
+
     }
 }
