@@ -55,7 +55,6 @@ public class Main {
         SubTask updateSubtaskTask = new SubTask("Подзадача", "Обновление подзадачи",
                 Status.IN_PROGRESS, subTask5.getId(), 3);
         inMemoryTaskManager.updateSubTask(updateSubtaskTask);
-
         inMemoryTaskManager.deleteTaskId(task1.getId()); // Удаление Task по id
         inMemoryTaskManager.deleteEpicId(epic3.getId()); // Удаление Epic по id
         inMemoryTaskManager.deleteSubTaskId(subTask7.getId()); // Удаление SubTask по id
