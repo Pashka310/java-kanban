@@ -1,13 +1,14 @@
 package tracker.tasks;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
 
-    protected ArrayList<Integer> idSubTask;
+    protected List<Integer> idSubTask;
 
-    public Epic(String name, String description, int id, ArrayList<Integer> idSubTask) {
+    public Epic(String name, String description, int id, List<Integer> idSubTask) {
         super(name, description, id);
         idSubTask = new ArrayList<>();
     }
@@ -17,7 +18,7 @@ public class Epic extends Task {
         idSubTask = new ArrayList<>();
     }
 
-    public ArrayList<Integer> getIdSubTask() {
+    public List<Integer> getIdSubTask() {
         return idSubTask;
     }
 

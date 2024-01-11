@@ -4,7 +4,6 @@ import tracker.tasks.Epic;
 import tracker.tasks.SubTask;
 import tracker.tasks.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
@@ -28,13 +27,13 @@ public interface TaskManager {
     void deleteAllSubTask();
 
     // Получение списка Task
-    ArrayList<Task> listAllTask();
+    List<Task> listAllTask();
 
     // Получение списка Epic
-    ArrayList<Epic> listAllEpic();
+    List<Epic> listAllEpic();
 
     // Получение списка SubTask
-    ArrayList<SubTask> listAllSubTask();
+    List<SubTask> listAllSubTask();
 
     // Получение Task по id
     Task getListTaskById(int id);
@@ -46,7 +45,7 @@ public interface TaskManager {
     SubTask getListSubTaskById(int id);
 
     // Получение списка всех SubTask определенного Epic
-    ArrayList<SubTask> getListSubTasksByIdEpic(int id);
+    List<SubTask> getListSubTasksByIdEpic(int id);
 
     // Обновление Task
     void updateTask(Task updateTask);

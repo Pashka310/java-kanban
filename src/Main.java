@@ -16,9 +16,9 @@ public class Main {
         Epic epic3 = new Epic("Эпик","Описание epic");
         SubTask subTask5 = new SubTask("Подзадача", "Описание подзадачи", 3);
         SubTask subTask6 = new SubTask("Подзадача1", "Описание подзадачи1", 3);
+        SubTask subTask7 = new SubTask("Подзадача2", "Описание подзадачи2", 3);
 
         Epic epic4 = new Epic("Эпик1","Описание epic1");
-        SubTask subTask7 = new SubTask("Подзадача2", "Описание подзадачи2", 4);
 
         inMemoryTaskManager.createTask(task1); // Создание Task
         inMemoryTaskManager.createTask(task2); // Создание Task1
@@ -28,18 +28,35 @@ public class Main {
         inMemoryTaskManager.createSubTask(subTask6); // Создание SubTask6
         inMemoryTaskManager.createSubTask(subTask7); // Создание SubTask7
 
-        inMemoryTaskManager.listAllTask(); // Получение списка всех Task
-        inMemoryTaskManager.listAllEpic(); // Получение списка всех Epic
-        inMemoryTaskManager.listAllSubTask(); // Получение списка всех SubTask
-        inMemoryTaskManager.deleteAllTask(); // Удаление всех Task
-        inMemoryTaskManager.deleteAllEpic();  // Удаление всех Epic
-        inMemoryTaskManager.deleteAllSubTask(); // Удаление всех SubTask
 
         inMemoryTaskManager.getListTaskById(task1.getId()); // Вывод Task по id
-        inMemoryTaskManager.getListEpicById(epic3.getId()); // Вывод Epic по id
-        inMemoryTaskManager.getListSubTaskById(subTask5.getId()); // Вывод SubTask по id
+        inMemoryTaskManager.getListTaskById(task2.getId()); // Вывод Task по id
 
-        // Получение списка SubTask определенного Epic
+        System.out.println(inMemoryTaskManager.getHistory());
+
+        inMemoryTaskManager.getListEpicById(epic3.getId()); // Вывод Epic по id
+        inMemoryTaskManager.getListEpicById(epic4.getId()); // Вывод Epic по id
+        inMemoryTaskManager.getListEpicById(epic4.getId()); // Вывод Epic по id
+        inMemoryTaskManager.getListSubTaskById(subTask5.getId()); // Вывод SubTask по id
+        inMemoryTaskManager.getListSubTaskById(subTask6.getId()); // Вывод SubTask по id
+        inMemoryTaskManager.getListSubTaskById(subTask7.getId()); // Вывод SubTask по id
+        inMemoryTaskManager.getListSubTaskById(subTask6.getId()); // Вывод SubTask по id
+
+        System.out.println(inMemoryTaskManager.getHistory());
+
+        inMemoryTaskManager.deleteTaskId(task1.getId()); // Удаление Task по id
+
+        System.out.println(inMemoryTaskManager.getHistory());
+
+        inMemoryTaskManager.deleteEpicId(epic3.getId()); // Удаление Epic по id
+
+        System.out.println(inMemoryTaskManager.getHistory());
+
+        inMemoryTaskManager.deleteEpicId(epic4.getId()); // Удаление Epic по id
+
+        System.out.println(inMemoryTaskManager.getHistory());
+
+       /* // Получение списка SubTask определенного Epic
         System.out.println(inMemoryTaskManager.getListSubTasksByIdEpic(epic4.getId()));
 
         // Обновление Task
@@ -55,11 +72,8 @@ public class Main {
         SubTask updateSubtaskTask = new SubTask("Подзадача", "Обновление подзадачи",
                 Status.IN_PROGRESS, subTask5.getId(), 3);
         inMemoryTaskManager.updateSubTask(updateSubtaskTask);
-        inMemoryTaskManager.deleteTaskId(task1.getId()); // Удаление Task по id
-        inMemoryTaskManager.deleteEpicId(epic3.getId()); // Удаление Epic по id
         inMemoryTaskManager.deleteSubTaskId(subTask7.getId()); // Удаление SubTask по id
 
-        System.out.println(inMemoryTaskManager.getHistory());//Последние просмотренные пользователем задачи
-
+        System.out.println(inMemoryTaskManager.getHistory());//Последние просмотренные пользователем задачи*/
     }
 }
