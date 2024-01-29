@@ -6,7 +6,7 @@ import tracker.tasks.SubTask;
 import tracker.tasks.Task;
 
 public class Main {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
 
         TaskManager inMemoryTaskManager = Managers.getDefault();
 
@@ -56,7 +56,7 @@ public class Main {
         inMemoryTaskManager.deleteEpicId(epic4.getId()); // Удаление Epic по id
         System.out.println(inMemoryTaskManager.getHistory());
 
-       /* // Получение списка SubTask определенного Epic
+        // Получение списка SubTask определенного Epic
         System.out.println(inMemoryTaskManager.getListSubTasksByIdEpic(epic4.getId()));
 
         // Обновление Task
@@ -74,6 +74,6 @@ public class Main {
         inMemoryTaskManager.updateSubTask(updateSubtaskTask);
         inMemoryTaskManager.deleteSubTaskId(subTask7.getId()); // Удаление SubTask по id
 
-        System.out.println(inMemoryTaskManager.getHistory());//Последние просмотренные пользователем задачи*/
-    }
+        System.out.println(inMemoryTaskManager.getHistory());//Последние просмотренные пользователем задачи
+    }*/
 }

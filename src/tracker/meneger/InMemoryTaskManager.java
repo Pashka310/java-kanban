@@ -14,10 +14,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     protected int id = 1;
 
-    private Map<Integer, Task> tasks = new HashMap<>();
-    private Map<Integer, Epic> epics = new HashMap<>();
-    private Map<Integer, SubTask> subTasks = new HashMap<>();
-    private HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
+    protected Map<Integer, Task> tasks = new HashMap<>();
+    protected Map<Integer, Epic> epics = new HashMap<>();
+    protected Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
 
     // Создание Task
     @Override
