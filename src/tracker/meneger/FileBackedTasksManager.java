@@ -1,5 +1,6 @@
 package tracker.meneger;
 
+import tracker.exceptions.ManagerSaveException;
 import tracker.tasks.*;
 
 import java.io.*;
@@ -35,52 +36,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
         fileBackedTasksManager.createSubTask(subTask7); // Создание SubTask7
 
         fileBackedTasksManager.getListTaskById(task1.getId()); // Вывод Task по id
-        /*fileBackedTasksManager.getListTaskById(task2.getId()); // Вывод Task по id
-        fileBackedTasksManager.getListTaskById(task2.getId()); // Вывод Task по id
-        System.out.println(fileBackedTasksManager.getHistory());*/
 
         fileBackedTasksManager.getListEpicById(epic3.getId()); // Вывод Epic по id
         fileBackedTasksManager.getListEpicById(epic4.getId()); // Вывод Epic по id
-        /*fileBackedTasksManager.getListEpicById(epic4.getId()); // Вывод Epic по id
-        System.out.println(fileBackedTasksManager.getHistory());*/
 
         fileBackedTasksManager.getListSubTaskById(subTask5.getId()); // Вывод SubTask по id
-        /*fileBackedTasksManager.getListSubTaskById(subTask6.getId()); // Вывод SubTask по id
-        fileBackedTasksManager.getListSubTaskById(subTask7.getId()); // Вывод SubTask по id
-        fileBackedTasksManager.getListSubTaskById(subTask6.getId()); // Вывод SubTask по id
-        System.out.println(fileBackedTasksManager.getHistory());*/
 
-       /* fileBackedTasksManager.deleteTaskId(task1.getId()); // Удаление Task по id
-        System.out.println(fileBackedTasksManager.getHistory());
-
-        fileBackedTasksManager.deleteSubTaskId(subTask7.getId()); // Удаление SubTask по id
-        System.out.println(fileBackedTasksManager.getHistory());
-
-        fileBackedTasksManager.deleteEpicId(epic3.getId()); // Удаление Epic по id
-        System.out.println(fileBackedTasksManager.getHistory());
-
-        fileBackedTasksManager.deleteEpicId(epic4.getId()); // Удаление Epic по id
-        System.out.println(fileBackedTasksManager.getHistory());*/
-
-        /*// Получение списка SubTask определенного Epic
-        System.out.println(fileBackedTasksManager.getListSubTasksByIdEpic(epic4.getId()));*/
-
-       /* // Обновление Task
-        Task updateTask = new Task("Задача1", "Обновление задачи", Status.IN_PROGRESS, task1.getId());
-        fileBackedTasksManager.updateTask(updateTask);*/
-
-       /* // Обновление Epic
-        Epic updateEpic = new Epic("Эпик", "Обновление epic", epic3.getId(),
-                epic3.getIdSubTask());
-        fileBackedTasksManager.updateEpic(updateEpic);*/
-
-       /* // Обновление SubTask
-        SubTask updateSubtaskTask = new SubTask("Подзадача", "Обновление подзадачи",
-                Status.IN_PROGRESS, subTask5.getId(), 3);
-        fileBackedTasksManager.updateSubTask(updateSubtaskTask);
-        fileBackedTasksManager.deleteSubTaskId(subTask7.getId()); // Удаление SubTask по id*/
-
-    //  System.out.println(fileBackedTasksManager.getHistory());//Последние просмотренные пользователем задачи
 
         FileBackedTasksManager fileManager = FileBackedTasksManager.loadFromFile(
                 new File("src/tracker/files/historyfile.csv"));
@@ -135,13 +96,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
             for (Integer id : idsHistory){
                 fileManager.inMemoryHistoryManager.add(fileHistory.get(id));
             }
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (IOException exception){
+            throw new ManagerSaveException(exception.getMessage(), exception.getCause());
         }
         return fileManager;
     }
 
-    static  List<Integer> historyFromString(String value){
+    private static  List<Integer> historyFromString(String value){
         List<Integer> idsHistory = new ArrayList<>();
         String[] line = value.split(",");
         for (String id : line){
@@ -179,8 +140,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
                 ids.add(String.valueOf(task.getId()));
             }
             writer.write(String.join(",", ids));
-        }catch (IOException e){
-            throw new ManagerSaveException();
+        }catch (IOException exception){
+            throw new ManagerSaveException(exception.getMessage(), exception.getCause());
         }
     }
 
@@ -253,24 +214,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
         save();
     }
 
-    // Получение списка Task
-    @Override
-    public List<Task> listAllTask(){
-        return super.listAllTask();
-    }
-
-    // Получение списка Epic
-    @Override
-    public List<Epic> listAllEpic() {
-        return super.listAllEpic();
-    }
-
-    // Получение списка SubTask
-    @Override
-    public List<SubTask> listAllSubTask(){
-        return super.listAllSubTask();
-    }
-
     // Получение Task по id
     @Override
     public Task getListTaskById(int id){
@@ -293,12 +236,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
         SubTask subTask = super.getListSubTaskById(id);
         save();
         return subTask;
-    }
-
-    // Получение списка всех SubTask определенного Epic
-    @Override
-    public List<SubTask> getListSubTasksByIdEpic(int id) {
-        return super.getListSubTasksByIdEpic(id);
     }
 
     // Обновление Task
@@ -348,11 +285,5 @@ public class FileBackedTasksManager extends InMemoryTaskManager{
     public void checkStatus(int idEpic) {
         super.checkStatus(idEpic);
         save();
-    }
-
-    //Последние просмотренные пользователем задачи
-    @Override
-    public List<Task> getHistory(){
-        return super.getHistory();
     }
 }
