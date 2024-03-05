@@ -54,6 +54,7 @@ public class Task {
     public TaskType getTaskType() {
         return TaskType.TASK;
     }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -63,6 +64,7 @@ public class Task {
                 ", status='" + status + '\'' +
                 '}';
     }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
