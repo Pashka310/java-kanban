@@ -46,13 +46,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         FileBackedTasksManager fileManager = FileBackedTasksManager.loadFromFile(
                 new File("src/tracker/files/historyfile.csv"));
 
-        for (Map.Entry<Integer, Task> entry : fileManager.tasks.entrySet()){
+        for (Map.Entry<Integer, Task> entry : fileManager.tasks.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
-        for (Map.Entry<Integer, Epic> entry : fileManager.epics.entrySet()){
+        for (Map.Entry<Integer, Epic> entry : fileManager.epics.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
-        for (Map.Entry<Integer, SubTask> entry : fileManager.subTasks.entrySet()){
+        for (Map.Entry<Integer, SubTask> entry : fileManager.subTasks.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
         System.out.println(fileManager.getHistory());
@@ -60,17 +60,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private final File FILE;
 
-    public FileBackedTasksManager(File FILE){
+    public FileBackedTasksManager(File FILE) {
         this.FILE = FILE;
     }
 
-    private static FileBackedTasksManager loadFromFile(File file){
+    private static FileBackedTasksManager loadFromFile(File file) {
         FileBackedTasksManager fileManager = new FileBackedTasksManager(file);
         Map<Integer, Task> fileHistory = new HashMap<>();
         List<Integer> idsHistory = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             List<String> taskLines = reader.lines().collect(Collectors.toList());
-            for(int i = 1; i < taskLines.size(); i++){
+            for (int i = 1; i < taskLines.size(); i++) {
                 if(taskLines.get(i).isEmpty() && !taskLines.get(i + 1).isEmpty()){
                     idsHistory = historyFromString(taskLines.get(i + 1));
                     break;
