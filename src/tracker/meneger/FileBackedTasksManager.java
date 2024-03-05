@@ -71,14 +71,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             List<String> taskLines = reader.lines().collect(Collectors.toList());
             for (int i = 1; i < taskLines.size(); i++) {
-                if(taskLines.get(i).isEmpty() && !taskLines.get(i + 1).isEmpty()){
+                if (taskLines.get(i).isEmpty() && !taskLines.get(i + 1).isEmpty()) {
                     idsHistory = historyFromString(taskLines.get(i + 1));
                     break;
                 }
             String[] line = taskLines.get(i).split(",");
                 Task task = fromString(line);
                 fileHistory.put(task.getId(),task);
-                switch (task.getTaskType()){
+                switch (task.getTaskType()) {
                     case TASK:
                         fileManager.tasks.put(task.getId(), task);
                         break;
@@ -89,35 +89,35 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                         fileManager.subTasks.put(task.getId(), (SubTask) task);
                         break;
                 }
-                if(task.getId() > fileManager.id){
+                if (task.getId() > fileManager.id) {
                     fileManager.id = task.getId();
                 }
             }
-            for (Integer id : idsHistory){
+            for (Integer id : idsHistory) {
                 fileManager.inMemoryHistoryManager.add(fileHistory.get(id));
             }
-        } catch (IOException exception){
+        } catch (IOException exception) {
             throw new ManagerSaveException(exception.getMessage(), exception.getCause());
         }
         return fileManager;
     }
 
-    private static  List<Integer> historyFromString(String value){
+    private static List<Integer> historyFromString(String value) {
         List<Integer> idsHistory = new ArrayList<>();
         String[] line = value.split(",");
-        for (String id : line){
+        for (String id : line) {
             idsHistory.add(Integer.valueOf(id));
         }
         return idsHistory;
     }
 
-    private static Task fromString(String[] line){
+    private static Task fromString(String[] line) {
         int id = Integer.parseInt(line[0]);
         TaskType taskType = TaskType.valueOf(line[1]);
         String title = line[2];
         Status status = Status.valueOf(line[3]);
         String description = line[4];
-        switch (taskType){
+        switch (taskType) {
             case TASK:
                 return new Task(title, description, status, id);
             case EPIC:
@@ -129,43 +129,43 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return null;
     }
 
-    private void save(){
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.valueOf(FILE), StandardCharsets.UTF_8))){
+    private void save() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.valueOf(FILE), StandardCharsets.UTF_8))) {
             writer.write("id,type,name,status,description,epic");
             writer.newLine();
             addTasksToFile(writer);
             writer.newLine();
             List<String> ids = new ArrayList<>();
-            for(Task task : getHistory()){
+            for (Task task : getHistory()) {
                 ids.add(String.valueOf(task.getId()));
             }
             writer.write(String.join(",", ids));
-        }catch (IOException exception){
+        } catch (IOException exception) {
             throw new ManagerSaveException(exception.getMessage(), exception.getCause());
         }
     }
 
-    private void addTasksToFile(BufferedWriter writer) throws IOException{
-        for(Task task : listAllTask()){
+    private void addTasksToFile(BufferedWriter writer) throws IOException {
+        for (Task task : listAllTask()) {
             writer.write(toString(task));
             writer.newLine();
         }
-        for(Epic epic : listAllEpic()){
+        for (Epic epic : listAllEpic()) {
             writer.write(toString(epic));
             writer.newLine();
         }
-        for(SubTask subTask : listAllSubTask()){
+        for (SubTask subTask : listAllSubTask()) {
             writer.write(toString(subTask));
             writer.newLine();
         }
     }
 
-    private String toString(Task task){
+    private String toString(Task task) {
         return task.getId() + "," + task.getTaskType() + "," + task.getName() + "," +
                 task.getStatus() + "," + task.getDescription();
     }
 
-    private String toString(SubTask subTask){
+    private String toString(SubTask subTask) {
         return subTask.getId() + "," + subTask.getTaskType() + "," + subTask.getName() + "," +
                 subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getIdEpic();
     }
@@ -195,28 +195,28 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     // Удаление всех Task
     @Override
-    public void deleteAllTask(){
+    public void deleteAllTask() {
         super.deleteAllTask();
         save();
     }
 
     // Удаление всех Epic
     @Override
-    public void deleteAllEpic(){
+    public void deleteAllEpic() {
         super.deleteAllEpic();
         save();
     }
 
     // Удаление всех SubTask
     @Override
-    public void deleteAllSubTask(){
+    public void deleteAllSubTask() {
         super.deleteAllSubTask();
         save();
     }
 
     // Получение Task по id
     @Override
-    public Task getListTaskById(int id){
+    public Task getListTaskById(int id) {
         Task task = super.getListTaskById(id);
         save();
         return task;
@@ -224,7 +224,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     // Получение Epic по id
     @Override
-    public Epic getListEpicById(int id){
+    public Epic getListEpicById(int id) {
         Epic epic = super.getListEpicById(id);
         save();
         return epic;
@@ -232,7 +232,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     // Получение SubTask по id
     @Override
-    public SubTask getListSubTaskById(int id){
+    public SubTask getListSubTaskById(int id) {
         SubTask subTask = super.getListSubTaskById(id);
         save();
         return subTask;
@@ -240,42 +240,42 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     // Обновление Task
     @Override
-    public void updateTask(Task updateTask){
+    public void updateTask(Task updateTask) {
         super.updateTask(updateTask);
         save();
     }
 
     // Обновление Epic
     @Override
-    public void updateEpic(Epic updateEpic){
+    public void updateEpic(Epic updateEpic) {
         super.updateEpic(updateEpic);
         save();
     }
 
     // Обновление SubTask
     @Override
-    public void updateSubTask(SubTask updateSabTask){
+    public void updateSubTask(SubTask updateSabTask) {
         super.updateSubTask(updateSabTask);
         save();
     }
 
     // Удаление Task по id
     @Override
-    public void deleteTaskId(int id){
+    public void deleteTaskId(int id) {
         super.deleteTaskId(id);
         save();
     }
 
     // Удаление Epic по id
     @Override
-    public void deleteEpicId(int id){
+    public void deleteEpicId(int id) {
         super.deleteEpicId(id);
         save();
     }
 
     // Удаление SubTask по id
     @Override
-    public void deleteSubTaskId(int id){
+    public void deleteSubTaskId(int id) {
         super.deleteSubTaskId(id);
         save();
     }
