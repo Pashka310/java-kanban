@@ -20,7 +20,7 @@ public class SubTask extends Task {
         return idEpic;
     }
 
-    public TaskType getTaskType(){
+    public TaskType getTaskType() {
         return TaskType.SUBTASK;
     }
 
