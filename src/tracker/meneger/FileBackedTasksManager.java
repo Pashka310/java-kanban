@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FileBackedTasksManager extends InMemoryTaskManager{
+public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public static void main(String[] args) {
 
