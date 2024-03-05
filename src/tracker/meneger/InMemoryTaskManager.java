@@ -215,7 +215,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Последние просмотренные пользователем задачи
     @Override
-    public List<Task> getHistory(){
+    public List<Task> getHistory() {
         return inMemoryHistoryManager.getHistory();
     }
 }
