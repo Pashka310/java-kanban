@@ -1,6 +1,7 @@
 package tracker.tasks;
 
 import java.util.Objects;
+
 public class Task {
 
     protected int id;
@@ -15,7 +16,7 @@ public class Task {
         this.status = status;
     }
 
-    public Task( String name, String description, int id) {
+    public Task(String name, String description, int id) {
         this.name = name;
         this.description = description;
         this.id = id;
@@ -50,7 +51,7 @@ public class Task {
         this.status = status;
     }
 
-    public TaskType getTaskType(){
+    public TaskType getTaskType() {
         return TaskType.TASK;
     }
     @Override
