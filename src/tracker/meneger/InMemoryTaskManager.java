@@ -52,8 +52,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Удаление всех Task
     @Override
-    public void deleteAllTask(){
-        for(Integer id : tasks.keySet()){
+    public void deleteAllTask() {
+        for (Integer id : tasks.keySet()) {
             inMemoryHistoryManager.remove(id);
         }
         tasks.clear();
@@ -61,7 +61,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Удаление всех Epic
     @Override
-    public void deleteAllEpic(){
+    public void deleteAllEpic() {
         for(Epic epic : epics.values()){
             int idEpic = epic.getId();
             List<Integer> idsSubTask = epics.get(idEpic).getIdSubTask();
