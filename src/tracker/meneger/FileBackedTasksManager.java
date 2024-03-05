@@ -58,10 +58,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         System.out.println(fileManager.getHistory());
     }
 
-    private final File FILE;
+    private final File file;
 
-    public FileBackedTasksManager(File FILE) {
-        this.FILE = FILE;
+    public FileBackedTasksManager(File file) {
+        this.file = file;
     }
 
     private static FileBackedTasksManager loadFromFile(File file) {
@@ -130,7 +130,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     private void save() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.valueOf(FILE), StandardCharsets.UTF_8))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.valueOf(file), StandardCharsets.UTF_8))) {
             writer.write("id,type,name,status,description,epic");
             writer.newLine();
             addTasksToFile(writer);
