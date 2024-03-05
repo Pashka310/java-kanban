@@ -7,16 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
 
     final private Map<Integer, Node> history = new HashMap<>();
 
-    private static class Node{
+    private static class Node {
         public Task task;
         public Node next;
         public Node prev;
 
-        public Node(Node prev, Task task, Node next){
+        public Node(Node prev, Task task, Node next) {
             this.task = task;
             this.next = next;
             this.prev = prev;
@@ -26,7 +26,7 @@ public class InMemoryHistoryManager implements HistoryManager{
     private Node tail;
 
     @Override
-    public List<Task> getHistory(){
+    public List<Task> getHistory() {
         return getTask();
     }
 
@@ -38,47 +38,47 @@ public class InMemoryHistoryManager implements HistoryManager{
     }
 
     @Override
-    public void remove(int id){
+    public void remove(int id) {
         removeNode(id);
     }
 
-    public void linkLast(Task task){
+    public void linkLast(Task task) {
         final Node oldTail = tail;
         final Node newNode = new Node(oldTail, task, null);
         tail = newNode;
-        if(oldTail == null){
+        if (oldTail == null) {
             head = newNode;
-        }else{
+        } else {
             oldTail.next = newNode;
         }
         history.put(task.getId(), newNode);
     }
 
-    private void removeNode(Node node){
+    private void removeNode(Node node) {
         final Node prev = node.prev;
         final Node next = node.next;
-        if(prev == null){
+        if (prev == null) {
             head = next;
-        }else{
+        } else {
             prev.next = next;
         }
-        if (next == null){
+        if (next == null) {
             tail = prev;
-        }else{
+        } else {
             next.prev = prev;
         }
     }
 
-    private void removeNode (int id){
+    private void removeNode(int id) {
         if(history.containsKey(id)){
             removeNode(history.get(id));
             history.remove(id);
         }
     }
 
-    private List<Task> getTask(){
+    private List<Task> getTask() {
         List<Task> tasks = new ArrayList<>();
-        for (Node node = head; node != null; node = node.next){
+        for (Node node = head; node != null; node = node.next) {
             tasks.add(node.task);
         }
         return tasks;
