@@ -1,10 +1,3 @@
-import tracker.meneger.Managers;
-import tracker.meneger.TaskManager;
-import tracker.tasks.Epic;
-import tracker.tasks.Status;
-import tracker.tasks.SubTask;
-import tracker.tasks.Task;
-
 public class Main {
     /*public static void main(String[] args) {
 
@@ -75,5 +68,5 @@ public class Main {
         inMemoryTaskManager.deleteSubTaskId(subTask7.getId()); // Удаление SubTask по id
 
         System.out.println(inMemoryTaskManager.getHistory());//Последние просмотренные пользователем задачи
-    }*/
+    }   */
 }
