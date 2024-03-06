@@ -30,7 +30,7 @@ public class Epic extends Task {
         idSubTask.add(id);
     }
 
-    public TaskType getTaskType(){
+    public TaskType getTaskType() {
         return TaskType.EPIC;
     }
 
