@@ -22,8 +22,9 @@ public class InMemoryHistoryManager implements HistoryManager {
             this.prev = prev;
         }
     }
-    private Node head;
-    private Node tail;
+
+    public Node head;
+    public Node tail;
 
     @Override
     public List<Task> getHistory() {
