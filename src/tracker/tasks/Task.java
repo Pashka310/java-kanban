@@ -74,6 +74,7 @@ public class Task {
                 && Objects.equals(description, task.description)
                 && Objects.equals(status, task.status);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description, status);
