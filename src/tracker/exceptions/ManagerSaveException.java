@@ -1,12 +1,12 @@
 package tracker.exceptions;
 
-public class ManagerSaveException extends RuntimeException{
+public class ManagerSaveException extends RuntimeException {
 
-    public ManagerSaveException(){
+    public ManagerSaveException() {
         super();
     }
 
-    public ManagerSaveException(String message, Throwable cause){
+    public ManagerSaveException(String message, Throwable cause) {
         super(message, cause);
     }
 }
